@@ -190,9 +190,9 @@ input:focus, select:focus {
     border-color: var(--accent);
     box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
 }
-select:focus{
+/*select:focus{
     background: #383a57;
-}
+}*/
 
 /* Radio/Bubble Choice */
 .bubble-grid {
@@ -338,4 +338,11 @@ div#spouse-info {
 
 #step-5 .portal-card{
     background: rgb(255 255 255 / 53%);
+}
+
+
+@media (max-width: 768px) {
+    #step-2 .bubble-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
 }

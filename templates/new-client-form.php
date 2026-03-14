@@ -53,11 +53,11 @@
                     </div>
                     <div class="input-group" id="dob-group">
                         <label>Date of Birth</label>
-                        <input type="date" name="dob" required>
+                        <input type="text" name="dob" required placeholder="MM/DD/YYYY" pattern="\d{2}/\d{2}/\d{4}">
                     </div>
                     <div class="input-group">
                         <label>Occupation</label>
-                        <input type="text" name="occupation" required placeholder="Software Engineer">
+                        <input type="text" name="occupation" required >
                     </div>
                     <div class="input-group">
                         <label>Cell Phone</label>
@@ -80,8 +80,8 @@
                         <input type="password" name="bankAccount" placeholder="For Direct Deposit">
                     </div>
                     <div class="input-group">
-                        <label>Bank Routing Number</label>
-                        <input type="password" name="bankRouting" required placeholder="9 Digits">
+                        <label>Bank Routing Number (Optional)</label>
+                        <input type="password" name="bankRouting" placeholder="9 Digits">
                     </div>
                 </div>
 
@@ -134,7 +134,7 @@
                         </div>
                         <div class="input-group">
                             <label>Spouse DOB</label>
-                            <input type="date" name="spouseDOB">
+                            <input type="text" name="spouseDOB" placeholder="MM/DD/YYYY" pattern="\d{2}/\d{2}/\d{4}">
                         </div>
                         <div class="input-group">
                             <label>Spouse Email</label>
@@ -221,6 +221,32 @@
                     </label>
                 </div>
 
+                <!-- File Upload or Link Section -->
+                <div style="background: rgb(255 255 255 / 53%); border: 1px solid var(--border); padding: 2rem; border-radius: 20px; margin-bottom: 2rem;">
+                    <h4 style="margin-bottom: 1.5rem; color: var(--accent);">Document Upload or Link</h4>
+
+                    <div class="input-group" style="margin-bottom: 1.5rem;">
+                        <label style="display: flex; gap: 1rem; cursor: pointer;">
+                            <input type="checkbox" id="use_link_checkbox">
+                            <span>Provide a link instead of uploading a file</span>
+                        </label>
+                    </div>
+
+                    <div id="file_upload_section">
+                        <div class="input-group">
+                            <label>Upload Documents (PDF, DOC, DOCX, XLS, XLSX - Max 5MB each)</label>
+                            <input type="file" name="client_document[]" id="client_document" accept=".pdf,.doc,.docx,.xls,.xlsx" multiple style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 10px; width: 100%;">
+                        </div>
+                    </div>
+
+                    <div id="link_section" style="display: none;">
+                        <div class="input-group">
+                            <label>Document Links (one per line)</label>
+                            <textarea name="client_document_link" id="client_document_link" rows="3" placeholder="Paste your document links here, one per line..." style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 10px;"></textarea>
+                        </div>
+                    </div>
+                </div>
+
 
 
                 <div style="margin-top: 3rem; display: flex; justify-content: space-between;">
@@ -237,7 +263,7 @@
                 <div class="input-grid">
                     <div class="portal-card" style="padding: 1.5rem;">
                         <h4 style="color: var(--accent);">Monthly Raffle</h4>
-                        <p style="font-size: 0.9rem;">Automatic entry to win a <strong>40-inch TV</strong>!</p>
+                        <p style="font-size: 0.9rem;">Upon completing this form, you will be entered for a chance to win a <strong>40-inch TV</strong>!</p>
                     </div>
                     <div class="portal-card" style="padding: 1.5rem;">
                         <h4 style="color: var(--accent);">Bonus Reward</h4>

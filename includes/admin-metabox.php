@@ -83,7 +83,7 @@ function crs_render_client_metabox( $post ) {
     <h2>Personal Information</h2>
     <table class="crs-table">
         <tr><th>SSN</th><td><input type="text" name="crs_ssn" value="<?php echo esc_attr($ssn); ?>" class="crs-input"></td></tr>
-        <tr><th>DOB</th><td><input type="date" name="crs_dob" value="<?php echo esc_attr($dob); ?>" class="crs-input"></td></tr>
+        <tr><th>DOB</th><td><input type="text" name="crs_dob" value="<?php echo esc_attr($dob); ?>" class="crs-input"></td></tr>
         <tr><th>Occupation</th><td><input type="text" name="crs_occupation" value="<?php echo esc_attr($occ); ?>" class="crs-input"></td></tr>
         <tr><th>Phone</th><td><input type="text" name="crs_phone" value="<?php echo esc_attr($phone); ?>" class="crs-input"></td></tr>
         <tr><th>Email</th><td><input type="email" name="crs_email" value="<?php echo esc_attr($email); ?>" class="crs-input"></td></tr>
@@ -97,7 +97,7 @@ function crs_render_client_metabox( $post ) {
     <table class="crs-table">
         <tr><th>Name</th><td><input type="text" name="crs_spouse_name" value="<?php echo esc_attr($spouse_name); ?>" class="crs-input"></td></tr>
         <tr><th>SSN</th><td><input type="text" name="crs_spouse_ssn" value="<?php echo esc_attr($spouse_ssn); ?>" class="crs-input"></td></tr>
-        <tr><th>DOB</th><td><input type="date" name="crs_spouse_dob" value="<?php echo esc_attr($spouse_dob); ?>" class="crs-input"></td></tr>
+        <tr><th>DOB</th><td><input type="text" name="crs_spouse_dob" value="<?php echo esc_attr($spouse_dob); ?>" class="crs-input"></td></tr>
         <tr><th>Email</th><td><input type="email" name="crs_spouse_email" value="<?php echo esc_attr($spouse_email); ?>" class="crs-input"></td></tr>
         <tr><th>Occupation</th><td><input type="text" name="crs_spouse_occupation" value="<?php echo esc_attr($spouse_occ); ?>" class="crs-input"></td></tr>
     </table>
@@ -182,7 +182,7 @@ function crs_render_client_metabox( $post ) {
                 <tr>
                     <th>Date of Birth</th>
                     <td>
-                        <input type="date"
+                        <input type="text"
                                name="crs_dependents[<?php echo $index; ?>][dob]"
                                value="<?php echo esc_attr($dep['dob'] ?? ''); ?>"
                                class="crs-input">
@@ -224,6 +224,30 @@ function crs_render_client_metabox( $post ) {
         endforeach;
     endif;
     ?>
+
+    <h2>Document</h2>
+    <table class="crs-table">
+        <?php
+        $document_urls = get_post_meta($post_id, 'crs_document_urls', true);
+        if (is_array($document_urls) && !empty($document_urls)) {
+            echo '<tr><th>Document URLs</th><td><ul>';
+            foreach ($document_urls as $key => $url) {
+                $download_url = add_query_arg(array('crs_download' => '1', 'post_id' => $post_id, 'index' => $key), home_url('/'));
+                echo '<li><a href="' . esc_url($download_url) . '" target="_blank">' . esc_html(basename($url)) . '</a></li>';
+            }
+            echo '</ul></td></tr>';
+        }
+
+        $document_links = get_post_meta($post_id, 'crs_document_links', true);
+        if (is_array($document_links) && !empty($document_links)) {
+            echo '<tr><th>Document Links</th><td><ul>';
+            foreach ($document_links as $link) {
+                echo '<li><a href="' . esc_url($link) . '" target="_blank">' . esc_html($link) . '</a></li>';
+            }
+            echo '</ul></td></tr>';
+        }
+        ?>
+    </table>
 
     <?php
 }
@@ -298,6 +322,19 @@ function crs_save_client_meta( $post_id ) {
 
         delete_post_meta($post_id, 'crs_dependents');
         update_post_meta($post_id, 'crs_dependents', $clean_dependents);
+    }
+
+    // Save Document fields
+    $document_fields = array(
+            'crs_document_url',
+            'crs_document_link',
+    );
+
+    foreach ( $document_fields as $doc_field ) {
+
+        if ( array_key_exists($doc_field, $_POST) ) {
+            update_post_meta($post_id, $doc_field, sanitize_text_field($_POST[$doc_field]));
+        }
     }
 }
 add_action('save_post','crs_save_client_meta');

@@ -115,6 +115,61 @@ function crs_handle_client_submission() {
         update_post_meta( $post_id, 'crs_dependents', $dependents );
     }
 
+    // ============================
+    // Handle Document Upload or Link
+    // ============================
+
+    $document_urls = array();
+    $document_links = array();
+
+    if ( isset($_FILES['client_document']) && !empty($_FILES['client_document']['name'][0]) ) {
+        // Handle multiple file uploads
+        $files = $_FILES['client_document'];
+
+        foreach ($files['name'] as $key => $name) {
+            if (empty($name)) continue;
+
+            $file = array(
+                'name'     => $files['name'][$key],
+                'type'     => $files['type'][$key],
+                'tmp_name' => $files['tmp_name'][$key],
+                'error'    => $files['error'][$key],
+                'size'     => $files['size'][$key],
+            );
+
+            // Check file size (5MB)
+            if ( $file['size'] > 5 * 1024 * 1024 ) {
+                wp_send_json_error( array( 'message' => 'File ' . $name . ' exceeds 5MB limit.' ) );
+            }
+
+            // Check file type
+            $allowed_types = array( 'pdf', 'doc', 'docx', 'xls', 'xlsx' );
+            $file_ext = strtolower( pathinfo( $name, PATHINFO_EXTENSION ) );
+            if ( ! in_array( $file_ext, $allowed_types ) ) {
+                wp_send_json_error( array( 'message' => 'Invalid file type for ' . $name . '. Allowed: PDF, DOC, DOCX, XLS, XLSX.' ) );
+            }
+
+            // Upload file
+            $upload_overrides = array( 'test_form' => false );
+            $uploaded_file = wp_handle_upload( $file, $upload_overrides );
+
+            if ( isset( $uploaded_file['error'] ) ) {
+                wp_send_json_error( array( 'message' => 'File upload failed for ' . $name . ': ' . $uploaded_file['error'] ) );
+            }
+
+            $document_urls[] = $uploaded_file['url'];
+        }
+
+        update_post_meta( $post_id, 'crs_document_urls', $document_urls );
+    } elseif ( ! empty($_POST['client_document_link']) ) {
+        // Handle multiple links
+        $links_text = sanitize_textarea_field( $_POST['client_document_link'] );
+        $links = explode("\n", $links_text);
+        $document_links = array_map('trim', array_filter($links));
+
+        update_post_meta( $post_id, 'crs_document_links', $document_links );
+    }
+
 
     // 5️⃣ Assign taxonomies
     crs_send_to_google($post_id);

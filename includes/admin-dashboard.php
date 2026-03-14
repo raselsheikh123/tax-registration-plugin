@@ -309,6 +309,11 @@ function crs_handle_csv_export() {
             'Sold / Exchange',
             'Unemployment / Leave',
             'Insurance Provider',
+
+            'Document URL',
+            'Document Link',
+            'Document URLs',
+            'Document Links',
     );
 
     // Add Dependent Columns (Always 6)
@@ -397,6 +402,11 @@ function crs_handle_csv_export() {
                     $questionnaire['sellExchangeType'] ?? '',
                     $questionnaire['payType'] ?? '',
                     $questionnaire['insuranceProvider'] ?? '',
+
+                    get_post_meta($post_id, 'crs_document_url', true),
+                    get_post_meta($post_id, 'crs_document_link', true),
+                    implode(', ', (array) get_post_meta($post_id, 'crs_document_urls', true)),
+                    implode(', ', (array) get_post_meta($post_id, 'crs_document_links', true)),
             );
 
             // Flatten 6 Dependents
@@ -430,5 +440,4 @@ function crs_handle_csv_export() {
 }
 
 add_action('admin_init', 'crs_handle_csv_export');
-
 

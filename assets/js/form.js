@@ -168,6 +168,14 @@ document.addEventListener('change', function (e) {
     }
 });
 
+// Add event listener for the document upload toggle
+document.addEventListener('DOMContentLoaded', function() {
+    const checkbox = document.getElementById('use_link_checkbox');
+    if (checkbox) {
+        checkbox.addEventListener('change', toggleUploadType);
+    }
+});
+
 function addDependent() {
     if (dependentCount >= 6) return;
     dependentCount++;
@@ -188,7 +196,7 @@ function addDependent() {
         </h4>
         <div class="input-grid">
             <div class="input-group">
-                <label>Name</label>
+                <label>Full Name</label>
                 <input type="text" name="depName_${dependentCount}" required ${!isVisible ? 'disabled' : ''}>
             </div>
             <div class="input-group">
@@ -197,7 +205,7 @@ function addDependent() {
             </div>
             <div class="input-group">
                 <label>Date of Birth</label>
-                <input type="date" name="depDOB_${dependentCount}" required ${!isVisible ? 'disabled' : ''}>
+                <input type="text" name="depDOB_${dependentCount}" required ${!isVisible ? 'disabled' : ''} placeholder="MM/DD/YYYY" pattern="\\d{2}/\\d{2}/\\d{4}">
             </div>
             <div class="input-group">
                 <label>Relationship</label>
@@ -216,14 +224,14 @@ function addDependent() {
         </div>
         <div class="input-grid" style="margin-top: 1rem;">
             <div class="input-group">
-                <label>Lived with you > 6 months?</label>
+                <label>Did the dependent live with you for more than 6 months?</label>
                 <div style="display: flex; gap: 1rem;">
                     <label class="bubble-option" style="flex: 1;"><input type="radio" name="depLive_${dependentCount}" value="yes" required ${!isVisible ? 'disabled' : ''}> Yes</label>
                     <label class="bubble-option" style="flex: 1;"><input type="radio" name="depLive_${dependentCount}" value="no" ${!isVisible ? 'disabled' : ''}> No</label>
                 </div>
             </div>
             <div class="input-group">
-                <label>Pay for childcare?</label>
+                <label>Do you pay for childcare for this dependent?</label>
                 <div style="display: flex; gap: 1rem;">
                     <label class="bubble-option" style="flex: 1;"><input type="radio" name="depCare_${dependentCount}" value="yes" required ${!isVisible ? 'disabled' : ''}> Yes</label>
                     <label class="bubble-option" style="flex: 1;"><input type="radio" name="depCare_${dependentCount}" value="no" ${!isVisible ? 'disabled' : ''}> No</label>
@@ -342,6 +350,20 @@ function generateReport() {
         }
     });
 
+    // Add Document Info
+    if (data.client_document || data.client_document_link) {
+        reportHTML += `
+            <tr>
+                <th>Document URL</th>
+                <td>${data.client_document || ''}</td>
+            </tr>
+            <tr>
+                <th>Document Link</th>
+                <td>${data.client_document_link || ''}</td>
+            </tr>
+        `;
+    }
+
     reportHTML += `</table>`;
 
 
@@ -399,6 +421,19 @@ function generateReport() {
         }
     }
 
+
+    // =========================
+    // Documents
+    // =========================
+    reportHTML += `<h2>Documents</h2><table>`;
+
+    if (data.client_document_link) {
+        reportHTML += `<tr><th>Document Links</th><td>${data.client_document_link.replace(/\n/g, '<br>')}</td></tr>`;
+    }
+
+    reportHTML += `</table>`;
+
+
     reportHTML += `
         <script>
             window.onload = function() {
@@ -412,4 +447,28 @@ function generateReport() {
     const reportWindow = window.open('', '_blank');
     reportWindow.document.write(reportHTML);
     reportWindow.document.close();
+}
+
+function toggleUploadType() {
+    const checkbox = document.getElementById('use_link_checkbox');
+    const fileSection = document.getElementById('file_upload_section');
+    const linkSection = document.getElementById('link_section');
+    const fileInput = document.getElementById('client_document');
+    const linkTextarea = document.getElementById('client_document_link');
+
+    if (checkbox.checked) {
+        fileSection.style.display = 'none';
+        linkSection.style.display = 'block';
+        fileInput.required = false;
+        fileInput.disabled = true;
+        linkTextarea.required = true;
+        linkTextarea.disabled = false;
+    } else {
+        fileSection.style.display = 'block';
+        linkSection.style.display = 'none';
+        fileInput.required = false; // Optional
+        fileInput.disabled = false;
+        linkTextarea.required = false;
+        linkTextarea.disabled = true;
+    }
 }

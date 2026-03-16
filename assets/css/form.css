@@ -305,6 +305,19 @@ input:focus, select:focus {
 .status-online { background: rgba(16, 185, 129, 0.1); color: #10b981; }
 .status-office { background: rgba(212, 175, 55, 0.1); color: #d4af37; }
 
+.form-container input[type="text"],
+.form-container input[type="number"],
+.form-container input[type="email"],
+.form-container input[type="url"],
+.form-container input[type="password"],
+.form-container input[type="search"],
+.form-container input[type=reset],
+.form-container input[type=tel],
+.form-container input[type=date],
+.form-container select {
+    height: auto;
+}
+
 /* Animations */
 @keyframes fadeInDown {
     from { opacity: 0; transform: translateY(-30px); }
@@ -344,5 +357,28 @@ div#spouse-info {
 @media (max-width: 768px) {
     #step-2 .bubble-grid {
         grid-template-columns: repeat(2, 1fr) !important;
+    }
+    .bubble-grid {
+        gap: 0.5rem;
+    }
+
+    .bubble-option {
+        padding: 0.5rem;
+    }
+
+    .form-container {
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    .bubble-option input {
+        margin-right: 8px;
+    }
+
+    .input-group label {
+    }
+
+    .form-container .btn {
+        padding: 1rem;
     }
 }

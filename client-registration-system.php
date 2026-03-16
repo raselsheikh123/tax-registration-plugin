@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Client Registration System
  * Description: Custom client registration and admin management system.
- * Version: 2.0
+ * Version: 3.0
  * Author: Your Name
  */
 

@@ -231,7 +231,7 @@ function addDependent() {
                 </div>
             </div>
             <div class="input-group">
-                <label>Do you pay for childcare for this dependent?</label>
+                <label>Did you pay for childcare for this dependent last year?</label>
                 <div style="display: flex; gap: 1rem;">
                     <label class="bubble-option" style="flex: 1;"><input type="radio" name="depCare_${dependentCount}" value="yes" required ${!isVisible ? 'disabled' : ''}> Yes</label>
                     <label class="bubble-option" style="flex: 1;"><input type="radio" name="depCare_${dependentCount}" value="no" ${!isVisible ? 'disabled' : ''}> No</label>

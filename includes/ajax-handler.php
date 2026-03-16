@@ -143,10 +143,10 @@ function crs_handle_client_submission() {
             }
 
             // Check file type
-            $allowed_types = array( 'pdf', 'doc', 'docx', 'xls', 'xlsx' );
+            $allowed_types = array( 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'jpg', 'jpeg', 'png' );
             $file_ext = strtolower( pathinfo( $name, PATHINFO_EXTENSION ) );
             if ( ! in_array( $file_ext, $allowed_types ) ) {
-                wp_send_json_error( array( 'message' => 'Invalid file type for ' . $name . '. Allowed: PDF, DOC, DOCX, XLS, XLSX.' ) );
+                wp_send_json_error( array( 'message' => 'Invalid file type for ' . $name . '. Allowed: PDF, DOC, DOCX, XLS, XLSX, JPG, PNG.' ) );
             }
 
             // Upload file

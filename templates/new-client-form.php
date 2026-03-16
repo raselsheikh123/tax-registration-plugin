@@ -234,8 +234,8 @@
 
                     <div id="file_upload_section">
                         <div class="input-group">
-                            <label>Upload Documents (PDF, DOC, DOCX, XLS, XLSX - Max 5MB each)</label>
-                            <input type="file" name="client_document[]" id="client_document" accept=".pdf,.doc,.docx,.xls,.xlsx" multiple style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 10px; width: 100%;">
+                            <label>Upload Documents (PDF, DOC, DOCX, XLS, XLSX, JPG, PNG - Max 5MB each)</label>
+                            <input type="file" name="client_document[]" id="client_document" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" capture="environment" multiple style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 10px; width: 100%;">
                         </div>
                     </div>
 
@@ -263,12 +263,11 @@
                 <div class="input-grid">
                     <div class="portal-card" style="padding: 1.5rem;">
                         <h4 style="color: var(--accent);">Monthly Raffle</h4>
-                        <p style="font-size: 0.9rem;">Upon completing this form, you will be entered for a chance to win a <strong>40-inch TV</strong>!</p>
+                        <p style="font-size: 0.9rem;">Upon filing your taxes, you will be entered for a chance to win a <strong>40-inch TV!</strong> Increase your chances of winning: Leave a review on google or facebook for a second entry.</p>
                     </div>
                     <div class="portal-card" style="padding: 1.5rem;">
                         <h4 style="color: var(--accent);">Bonus Reward</h4>
-                        <p style="font-size: 0.9rem;"><strong>$10 Starbucks Card</strong> for tagging us or checking
-                            in on social media.</p>
+                        <p style="font-size: 0.9rem;">Earn a <strong>$10 Starbucks Card</strong> for tagging us or checking in on social media.</p>
                     </div>
                     <div class="portal-card" style="padding: 1.5rem;">
                         <h4 style="color: var(--accent);">Referral Program</h4>

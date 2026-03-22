@@ -3,8 +3,9 @@
 /**
  * Plugin Name: Client Registration System
  * Description: Custom client registration and admin management system.
- * Version: 3.0
- * Author: Your Name
+ * Version: 4.0
+ * Author: Rasel
+ * Author URI: https://alterdiv.com/
  */
 
 if (!defined('ABSPATH')) {
@@ -96,7 +97,8 @@ add_shortcode('crs_client_form', 'crs_new_client_form_shortcode');
 |--------------------------------------------------------------------------
 */
 
-function crs_register_google_menu() {
+function crs_register_google_menu()
+{
 
     add_submenu_page(
         'crs-dashboard',
@@ -109,9 +111,10 @@ function crs_register_google_menu() {
 }
 add_action('admin_menu', 'crs_register_google_menu');
 
-function crs_render_google_settings() {
+function crs_render_google_settings()
+{
 
-    if ( isset($_POST['crs_webhook_url']) ) {
+    if (isset($_POST['crs_webhook_url'])) {
         update_option('crs_webhook_url', esc_url_raw($_POST['crs_webhook_url']));
         echo '<div class="updated"><p>Settings Saved.</p></div>';
     }
@@ -127,10 +130,8 @@ function crs_render_google_settings() {
                 <tr>
                     <th>Webhook URL</th>
                     <td>
-                        <input type="text"
-                               name="crs_webhook_url"
-                               value="<?php echo esc_attr($webhook); ?>"
-                               style="width:500px;">
+                        <input type="text" name="crs_webhook_url" value="<?php echo esc_attr($webhook); ?>"
+                            style="width:500px;">
                         <p class="description">
                             Paste your Google Apps Script Web App URL here.
                         </p>
@@ -159,83 +160,90 @@ function crs_render_google_settings() {
 
 add_action('admin_init', 'crs_manual_google_send');
 
-function crs_manual_google_send() {
+function crs_manual_google_send()
+{
 
-    if ( ! isset($_POST['crs_manual_send']) ) return;
-    if ( ! current_user_can('manage_options') ) return;
+    if (!isset($_POST['crs_manual_send']))
+        return;
+    if (!current_user_can('manage_options'))
+        return;
 
     $post_id = intval($_POST['crs_test_post_id']);
 
-    if ( $post_id ) {
+    if ($post_id) {
         crs_send_to_google($post_id);
     }
 }
 
-function crs_send_to_google($post_id) {
+function crs_send_to_google($post_id)
+{
 
     $webhook = get_option('crs_webhook_url');
-    if ( ! $webhook ) return;
+    if (!$webhook)
+        return;
 
     $questionnaire = get_post_meta($post_id, 'crs_questionnaire', true);
-    if ( ! is_array($questionnaire) ) $questionnaire = array();
+    if (!is_array($questionnaire))
+        $questionnaire = array();
 
     $dependents = get_post_meta($post_id, 'crs_dependents', true);
-    if ( ! is_array($dependents) ) $dependents = array();
+    if (!is_array($dependents))
+        $dependents = array();
 
     $data = array(
-            'post_id'      => $post_id,
-            'client_type'  => get_post_meta($post_id, 'crs_client_type', true),
-            'full_name'    => get_the_title($post_id),
-            'ssn'          => get_post_meta($post_id, 'crs_ssn', true),
-            'dob'          => get_post_meta($post_id, 'crs_dob', true),
-            'occupation'   => get_post_meta($post_id, 'crs_occupation', true),
-            'phone'        => get_post_meta($post_id, 'crs_phone', true),
-            'email'        => get_post_meta($post_id, 'crs_email', true),
-            'address'      => get_post_meta($post_id, 'crs_address', true),
-            'bank_account' => get_post_meta($post_id, 'crs_bank_account', true),
-            'bank_routing' => get_post_meta($post_id, 'crs_bank_routing', true),
-            'filing_status'=> get_post_meta($post_id, 'crs_filing_status', true),
-            'spouse_name'  => get_post_meta($post_id, 'crs_spouse_name', true),
-            'spouse_ssn'   => get_post_meta($post_id, 'crs_spouse_ssn', true),
-            'spouse_dob'   => get_post_meta($post_id, 'crs_spouse_dob', true),
-            'spouse_email' => get_post_meta($post_id, 'crs_spouse_email', true),
-            'spouse_occ'   => get_post_meta($post_id, 'crs_spouse_occupation', true),
-            'document_urls' => get_post_meta($post_id, 'crs_document_urls', true),
-            'document_links' => get_post_meta($post_id, 'crs_document_links', true),
+        'post_id' => $post_id,
+        'client_type' => get_post_meta($post_id, 'crs_client_type', true),
+        'full_name' => get_the_title($post_id),
+        'ssn' => get_post_meta($post_id, 'crs_ssn', true),
+        'dob' => get_post_meta($post_id, 'crs_dob', true),
+        'occupation' => get_post_meta($post_id, 'crs_occupation', true),
+        'phone' => get_post_meta($post_id, 'crs_phone', true),
+        'email' => get_post_meta($post_id, 'crs_email', true),
+        'address' => get_post_meta($post_id, 'crs_address', true),
+        'bank_account' => get_post_meta($post_id, 'crs_bank_account', true),
+        'bank_routing' => get_post_meta($post_id, 'crs_bank_routing', true),
+        'filing_status' => get_post_meta($post_id, 'crs_filing_status', true),
+        'spouse_name' => get_post_meta($post_id, 'crs_spouse_name', true),
+        'spouse_ssn' => get_post_meta($post_id, 'crs_spouse_ssn', true),
+        'spouse_dob' => get_post_meta($post_id, 'crs_spouse_dob', true),
+        'spouse_email' => get_post_meta($post_id, 'crs_spouse_email', true),
+        'spouse_occ' => get_post_meta($post_id, 'crs_spouse_occupation', true),
+        'document_urls' => get_post_meta($post_id, 'crs_document_urls', true),
     );
 
     // Add questionnaire fields flat
-    foreach ( $questionnaire as $key => $value ) {
+    foreach ($questionnaire as $key => $value) {
         $data['q_' . $key] = $value;
     }
 
     // Add dependents flat (max 6)
-    for ( $i = 0; $i < 6; $i++ ) {
+    for ($i = 0; $i < 6; $i++) {
 
         $index = $i + 1;
 
         $dep = $dependents[$i] ?? array();
 
         $data["dep{$index}_name"] = $dep['name'] ?? '';
-        $data["dep{$index}_ssn"]  = $dep['ssn'] ?? '';
-        $data["dep{$index}_dob"]  = $dep['dob'] ?? '';
-        $data["dep{$index}_rel"]  = $dep['relationship'] ?? '';
+        $data["dep{$index}_ssn"] = $dep['ssn'] ?? '';
+        $data["dep{$index}_dob"] = $dep['dob'] ?? '';
+        $data["dep{$index}_rel"] = $dep['relationship'] ?? '';
         $data["dep{$index}_live"] = $dep['lived'] ?? '';
         $data["dep{$index}_care"] = $dep['childcare'] ?? '';
     }
 
     wp_remote_post($webhook, array(
-            'method'  => 'POST',
-            'body'    => json_encode($data),
-            'headers' => array(
-                    'Content-Type' => 'application/json'
-            )
+        'method' => 'POST',
+        'body' => json_encode($data),
+        'headers' => array(
+            'Content-Type' => 'application/json'
+        )
     ));
 }
 
 add_action('init', 'crs_handle_file_download');
 
-function crs_handle_file_download() {
+function crs_handle_file_download()
+{
 
     if (isset($_GET['crs_download']) && $_GET['crs_download'] == '1') {
         if (!current_user_can('manage_options')) {

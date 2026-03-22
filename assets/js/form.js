@@ -168,13 +168,7 @@ document.addEventListener('change', function (e) {
     }
 });
 
-// Add event listener for the document upload toggle
-document.addEventListener('DOMContentLoaded', function() {
-    const checkbox = document.getElementById('use_link_checkbox');
-    if (checkbox) {
-        checkbox.addEventListener('change', toggleUploadType);
-    }
-});
+
 
 function addDependent() {
     if (dependentCount >= 6) return;
@@ -351,15 +345,11 @@ function generateReport() {
     });
 
     // Add Document Info
-    if (data.client_document || data.client_document_link) {
+    if (data.client_document) {
         reportHTML += `
             <tr>
                 <th>Document URL</th>
                 <td>${data.client_document || ''}</td>
-            </tr>
-            <tr>
-                <th>Document Link</th>
-                <td>${data.client_document_link || ''}</td>
             </tr>
         `;
     }
@@ -422,16 +412,7 @@ function generateReport() {
     }
 
 
-    // =========================
-    // Documents
-    // =========================
-    reportHTML += `<h2>Documents</h2><table>`;
 
-    if (data.client_document_link) {
-        reportHTML += `<tr><th>Document Links</th><td>${data.client_document_link.replace(/\n/g, '<br>')}</td></tr>`;
-    }
-
-    reportHTML += `</table>`;
 
 
     reportHTML += `
@@ -449,26 +430,4 @@ function generateReport() {
     reportWindow.document.close();
 }
 
-function toggleUploadType() {
-    const checkbox = document.getElementById('use_link_checkbox');
-    const fileSection = document.getElementById('file_upload_section');
-    const linkSection = document.getElementById('link_section');
-    const fileInput = document.getElementById('client_document');
-    const linkTextarea = document.getElementById('client_document_link');
 
-    if (checkbox.checked) {
-        fileSection.style.display = 'none';
-        linkSection.style.display = 'block';
-        fileInput.required = false;
-        fileInput.disabled = true;
-        linkTextarea.required = true;
-        linkTextarea.disabled = false;
-    } else {
-        fileSection.style.display = 'block';
-        linkSection.style.display = 'none';
-        fileInput.required = false; // Optional
-        fileInput.disabled = false;
-        linkTextarea.required = false;
-        linkTextarea.disabled = true;
-    }
-}

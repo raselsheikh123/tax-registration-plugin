@@ -116,11 +116,10 @@ function crs_handle_client_submission() {
     }
 
     // ============================
-    // Handle Document Upload or Link
+    // Handle Document Upload
     // ============================
 
     $document_urls = array();
-    $document_links = array();
 
     if ( isset($_FILES['client_document']) && !empty($_FILES['client_document']['name'][0]) ) {
         // Handle multiple file uploads
@@ -161,13 +160,6 @@ function crs_handle_client_submission() {
         }
 
         update_post_meta( $post_id, 'crs_document_urls', $document_urls );
-    } elseif ( ! empty($_POST['client_document_link']) ) {
-        // Handle multiple links
-        $links_text = sanitize_textarea_field( $_POST['client_document_link'] );
-        $links = explode("\n", $links_text);
-        $document_links = array_map('trim', array_filter($links));
-
-        update_post_meta( $post_id, 'crs_document_links', $document_links );
     }
 
 

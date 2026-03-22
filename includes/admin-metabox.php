@@ -238,14 +238,6 @@ function crs_render_client_metabox( $post ) {
             echo '</ul></td></tr>';
         }
 
-        $document_links = get_post_meta($post_id, 'crs_document_links', true);
-        if (is_array($document_links) && !empty($document_links)) {
-            echo '<tr><th>Document Links</th><td><ul>';
-            foreach ($document_links as $link) {
-                echo '<li><a href="' . esc_url($link) . '" target="_blank">' . esc_html($link) . '</a></li>';
-            }
-            echo '</ul></td></tr>';
-        }
         ?>
     </table>
 
@@ -327,7 +319,6 @@ function crs_save_client_meta( $post_id ) {
     // Save Document fields
     $document_fields = array(
             'crs_document_url',
-            'crs_document_link',
     );
 
     foreach ( $document_fields as $doc_field ) {

@@ -221,28 +221,15 @@
                     </label>
                 </div>
 
-                <!-- File Upload or Link Section -->
+                <!-- File Upload Section -->
                 <div style="background: rgb(255 255 255 / 53%); border: 1px solid var(--border); padding: 2rem; border-radius: 20px; margin-bottom: 2rem;">
-                    <h4 style="margin-bottom: 1.5rem; color: var(--accent);">Document Upload or Link</h4>
-
-                    <div class="input-group" style="margin-bottom: 1.5rem;">
-                        <label style="display: flex; gap: 1rem; cursor: pointer;">
-                            <input type="checkbox" id="use_link_checkbox">
-                            <span>Provide a link instead of uploading a file</span>
-                        </label>
-                    </div>
+                    <h4 style="margin-bottom: 1.5rem; color: var(--accent);">Document Upload</h4>
 
                     <div id="file_upload_section">
                         <div class="input-group">
                             <label>Upload Documents (PDF, DOC, DOCX, XLS, XLSX, JPG, PNG - Max 5MB each)</label>
-                            <input type="file" name="client_document[]" id="client_document" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" capture="environment" multiple style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 10px; width: 100%;">
-                        </div>
-                    </div>
-
-                    <div id="link_section" style="display: none;">
-                        <div class="input-group">
-                            <label>Document Links (one per line)</label>
-                            <textarea name="client_document_link" id="client_document_link" rows="3" placeholder="Paste your document links here, one per line..." style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 10px;"></textarea>
+                            <p style="font-size: 0.85rem; opacity: 0.8; margin-top: 0.2rem; margin-bottom: 0.8rem; color: inherit;">For better results please upload the original PDF or take a picture. Screenshots are accepted however often times upload blurry so they are not preferred.</p>
+                            <input type="file" name="client_document[]" id="client_document" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" multiple style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 10px; width: 100%;">
                         </div>
                     </div>
                 </div>

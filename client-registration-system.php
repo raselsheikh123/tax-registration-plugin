@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Client Registration System
  * Description: Custom client registration and admin management system.
- * Version: 4.0
+ * Version: 5.0
  * Author: Rasel
  * Author URI: https://alterdiv.com/
  */

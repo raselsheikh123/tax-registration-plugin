@@ -1,10 +1,5 @@
 <div class="tax__support_container">
     <!-- Main Landing -->
-    <header id="welcome-header">
-        <h1>TAX SUPPORT</h1>
-        <p>Empowering your financial journey with reliable services.</p>
-    </header>
-
     <div id="selection-view" class="active-view">
         <div class="selection-grid">
             <div class="portal-card" onclick="startForm('new')">
@@ -17,11 +12,6 @@
                 <p>Welcome back! Let's get caught up and update your information.</p>
                 <button class="btn btn-primary">Update Info</button>
             </div>
-        </div>
-        <div style="text-align: center; margin-top: 3rem;">
-            <a href="admin.html"
-               style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem; opacity: 0.5;">Admin
-                Dashboard</a>
         </div>
     </div>
 
@@ -57,7 +47,7 @@
                     </div>
                     <div class="input-group">
                         <label>Occupation</label>
-                        <input type="text" name="occupation" required >
+                        <input type="text" name="occupation" required>
                     </div>
                     <div class="input-group">
                         <label>Cell Phone</label>
@@ -89,13 +79,14 @@
                 <div class="bubble-grid">
                     <label class="bubble-option">
                         <input type="radio" name="filingStatus" value="single" required
-                               onchange="handleStatusChange(this)">
+                            onchange="handleStatusChange(this)">
                         <div>
                             <strong>Single</strong>
                         </div>
                     </label>
                     <label class="bubble-option">
-                        <input type="radio" name="filingStatus" value="Head of Household" onchange="handleStatusChange(this)">
+                        <input type="radio" name="filingStatus" value="Head of Household"
+                            onchange="handleStatusChange(this)">
                         <div>
                             <strong>Head of Household</strong>
                             <p style="font-size: 0.8rem; opacity: 0.7;">To qualify, you must be unmarried (or
@@ -105,14 +96,13 @@
                     </label>
                     <label class="bubble-option">
                         <input type="radio" name="filingStatus" value="married_joint"
-                               onchange="handleStatusChange(this)">
+                            onchange="handleStatusChange(this)">
                         <div>
                             <strong>Filing Married with Spouse</strong>
                         </div>
                     </label>
                     <label class="bubble-option">
-                        <input type="radio" name="filingStatus" value="married_sep"
-                               onchange="handleStatusChange(this)">
+                        <input type="radio" name="filingStatus" value="married_sep" onchange="handleStatusChange(this)">
                         <div>
                             <strong>Filing Married separately from Spouse</strong>
                         </div>
@@ -121,7 +111,7 @@
 
                 <!-- Spouse Sub-form (Hidden) -->
                 <div id="spouse-info"
-                     style="display: none; margin-top: 2rem; padding: 2rem; border: 1px dashed var(--border); border-radius: 20px;">
+                    style="display: none; margin-top: 2rem; padding: 2rem; border: 1px dashed var(--border); border-radius: 20px;">
                     <h4 style="margin-bottom: 1.5rem; color: var(--accent);">Spouse Information</h4>
                     <div class="input-grid">
                         <div class="input-group">
@@ -177,25 +167,25 @@
                         claiming dependents?</label>
                     <div class="bubble-grid" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
                         <label class="bubble-option" id="dep-yes-label">
-                            <input type="radio" name="claimingDependents" value="yes"
-                                   onchange="toggleDependents(true)" required>
+                            <input type="radio" name="claimingDependents" value="yes" onchange="toggleDependents(true)"
+                                required>
                             <strong>Yes</strong>
                         </label>
                         <label class="bubble-option selected" id="dep-no-label">
-                            <input type="radio" name="claimingDependents" value="no"
-                                   onchange="toggleDependents(false)" checked>
+                            <input type="radio" name="claimingDependents" value="no" onchange="toggleDependents(false)"
+                                checked>
                             <strong>No</strong>
                         </label>
                     </div>
                 </div>
 
                 <div id="dependents-form"
-                     style="display: none; border-top: 1px solid var(--border); padding-top: 2rem; margin-top: 2rem;">
+                    style="display: none; border-top: 1px solid var(--border); padding-top: 2rem; margin-top: 2rem;">
                     <div id="dependents-list">
                         <!-- Dependent cards added here -->
                     </div>
                     <button type="button" class="btn btn-outline" id="add-dependent-btn" onclick="addDependent()"
-                            style="width: 100%; margin-top: 1rem; border-style: dashed;">
+                        style="width: 100%; margin-top: 1rem; border-style: dashed;">
                         + Add Another Dependent (Max 6)
                     </button>
                 </div>
@@ -211,25 +201,31 @@
                 <h3 class="section-title">Part 4: Certification</h3>
 
                 <div
-                        style="background: rgb(255 255 255 / 53%); border: 1px solid var(--border); padding: 2rem; border-radius: 20px; margin-bottom: 2rem;">
+                    style="background: rgb(255 255 255 / 53%); border: 1px solid var(--border); padding: 2rem; border-radius: 20px; margin-bottom: 2rem;">
                     <label style="display: flex; gap: 1rem; cursor: pointer;">
                         <input type="checkbox" name="certify" required
-                               style="width: 20px; height: 20px; margin-top: 0.2rem;">
+                            style="width: 20px; height: 20px; margin-top: 0.2rem;">
                         <span>I certify that the information provided is accurate and complete to the best of my
-                                    knowledge. I understand that providing false information may result in penalties or
-                                    legal consequences.</span>
+                            knowledge. I understand that providing false information may result in penalties or
+                            legal consequences.</span>
                     </label>
                 </div>
 
                 <!-- File Upload Section -->
-                <div style="background: rgb(255 255 255 / 53%); border: 1px solid var(--border); padding: 2rem; border-radius: 20px; margin-bottom: 2rem;">
+                <div
+                    style="background: rgb(255 255 255 / 53%); border: 1px solid var(--border); padding: 2rem; border-radius: 20px; margin-bottom: 2rem;">
                     <h4 style="margin-bottom: 1.5rem; color: var(--accent);">Document Upload</h4>
 
                     <div id="file_upload_section">
                         <div class="input-group">
                             <label>Upload Documents (PDF, DOC, DOCX, XLS, XLSX, JPG, PNG - Max 5MB each)</label>
-                            <p style="font-size: 0.85rem; opacity: 0.8; margin-top: 0.2rem; margin-bottom: 0.8rem; color: inherit;">For better results please upload the original PDF or take a picture. Screenshots are accepted however often times upload blurry so they are not preferred.</p>
-                            <input type="file" name="client_document[]" id="client_document" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" multiple style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 10px; width: 100%;">
+                            <p
+                                style="font-size: 0.85rem; opacity: 0.8; margin-top: 0.2rem; margin-bottom: 0.8rem; color: inherit;">
+                                For better results please upload the original PDF or take a picture. Screenshots are
+                                accepted however often times upload blurry so they are not preferred.</p>
+                            <input type="file" name="client_document[]" id="client_document"
+                                accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" multiple
+                                style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 10px; width: 100%;">
                         </div>
                     </div>
                 </div>
@@ -250,11 +246,15 @@
                 <div class="input-grid">
                     <div class="portal-card" style="padding: 1.5rem;">
                         <h4 style="color: var(--accent);">Monthly Raffle</h4>
-                        <p style="font-size: 0.9rem;">Upon filing your taxes, you will be entered for a chance to win a <strong>40-inch TV!</strong> Increase your chances of winning: Leave a review on google or facebook for a second entry.</p>
+                        <p style="font-size: 0.9rem;">Upon filing your taxes, you will be entered for a chance to win a
+                            <strong>40-inch TV!</strong> Increase your chances of winning: Leave a review on google or
+                            facebook for a second entry.
+                        </p>
                     </div>
                     <div class="portal-card" style="padding: 1.5rem;">
                         <h4 style="color: var(--accent);">Bonus Reward</h4>
-                        <p style="font-size: 0.9rem;">Earn a <strong>$10 Starbucks Card</strong> for tagging us or checking in on social media.</p>
+                        <p style="font-size: 0.9rem;">Earn a <strong>$10 Starbucks Card</strong> for tagging us or
+                            checking in on social media.</p>
                     </div>
                     <div class="portal-card" style="padding: 1.5rem;">
                         <h4 style="color: var(--accent);">Referral Program</h4>
@@ -270,7 +270,7 @@
                         <button type="button" class="btn btn-outline" onclick="generateReport()">
                             <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
                                 <path
-                                        d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z" />
+                                    d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z" />
                             </svg>
                             Print Report
                         </button>

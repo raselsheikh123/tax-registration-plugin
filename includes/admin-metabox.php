@@ -241,6 +241,12 @@ function crs_render_client_metabox( $post ) {
         ?>
     </table>
 
+    <div style="margin-top:20px; padding-top:10px; border-top:1px solid #ddd;">
+        <a href="<?php echo esc_url(wp_nonce_url(admin_url('admin.php?page=crs-dashboard&crs_print=1&post_id=' . $post_id), 'crs_print_client_' . $post_id, 'crs_print_nonce')); ?>" class="button button-primary button-large" target="_blank">
+            <span class="dashicons dashicons-printer" style="margin-top:4px;"></span> Print Client Data
+        </a>
+    </div>
+
     <?php
 }
 

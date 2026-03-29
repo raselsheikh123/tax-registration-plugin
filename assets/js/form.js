@@ -23,7 +23,7 @@ function startForm(type) {
         type === 'new' ? 'New Client' : 'Existing Client';
 
     document.getElementById('selection-view').style.display = 'none';
-    document.getElementById('welcome-header').style.display = 'none';
+    // document.getElementById('welcome-header').style.display = 'none';
     document.getElementById('form-container').style.display = 'block';
 
     if (type === 'existing') {
@@ -327,8 +327,8 @@ function generateReport() {
     // Personal Information
     // =========================
     const personalFields = [
-        'fullName','ssn','dob','occupation','phone','email','address',
-        'bankAccount','bankRouting','filingStatus'
+        'fullName', 'ssn', 'dob', 'occupation', 'phone', 'email', 'address',
+        'bankAccount', 'bankRouting', 'filingStatus'
     ];
 
     reportHTML += `<h2>Personal Information</h2><table>`;
@@ -361,9 +361,9 @@ function generateReport() {
     // Questionnaire
     // =========================
     const questionnaireFields = [
-        'selfEmployed','overtime','collegeTuition','studentLoans',
-        'ownHome','newVehicle','socialSecurity','retirementWithdraw',
-        'sellExchangeType','payType','insuranceProvider',
+        'selfEmployed', 'overtime', 'collegeTuition', 'studentLoans',
+        'ownHome', 'newVehicle', 'socialSecurity', 'retirementWithdraw',
+        'sellExchangeType', 'payType', 'insuranceProvider',
         'claimingDependents'
     ];
 

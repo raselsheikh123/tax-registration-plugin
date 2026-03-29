@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Client Registration System
  * Description: Custom client registration and admin management system.
- * Version: 5.0
+ * Version: 6.0
  * Author: Rasel
  * Author URI: https://alterdiv.com/
  */
@@ -20,6 +20,7 @@ if (!defined('ABSPATH')) {
 
 define('CRS_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('CRS_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('CRS_PLUGIN_VERSION', '6.0');
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,7 @@ require_once CRS_PLUGIN_PATH . 'includes/taxonomy.php';
 require_once CRS_PLUGIN_PATH . 'includes/ajax-handler.php';
 require_once CRS_PLUGIN_PATH . 'includes/metabox.php';
 require_once CRS_PLUGIN_PATH . 'includes/admin-dashboard.php';
+require_once CRS_PLUGIN_PATH . 'includes/admin-print.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -48,14 +50,14 @@ function crs_enqueue_assets()
         'crs-form-style',
         CRS_PLUGIN_URL . 'assets/css/form.css',
         array(),
-        '1.0'
+        CRS_PLUGIN_VERSION
     );
 
     wp_enqueue_script(
         'crs-form-script',
         CRS_PLUGIN_URL . 'assets/js/form.js',
         array('jquery'),
-        '1.0',
+        CRS_PLUGIN_VERSION,
         true
     );
 
@@ -120,7 +122,7 @@ function crs_render_google_settings()
     }
 
     $webhook = get_option('crs_webhook_url', '');
-    ?>
+?>
 
     <div class="wrap">
         <h1>Google Sheet Sync</h1>
@@ -155,7 +157,7 @@ function crs_render_google_settings()
 
     </div>
 
-    <?php
+<?php
 }
 
 add_action('admin_init', 'crs_manual_google_send');

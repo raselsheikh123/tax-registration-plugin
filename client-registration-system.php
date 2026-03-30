@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Client Registration System
  * Description: Custom client registration and admin management system.
- * Version: 6.0
+ * Version: 6.0.1
  * Author: Rasel
  * Author URI: https://alterdiv.com/
  */
@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
 
 define('CRS_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('CRS_PLUGIN_URL', plugin_dir_url(__FILE__));
-define('CRS_PLUGIN_VERSION', '6.0');
+define('CRS_PLUGIN_VERSION', '6.0.1');
 
 /*
 |--------------------------------------------------------------------------
@@ -258,10 +258,22 @@ function crs_handle_file_download()
         $urls = get_post_meta($post_id, 'crs_document_urls', true);
         if (is_array($urls) && isset($urls[$index])) {
             $url = $urls[$index];
-            $file_path = str_replace(home_url('/'), ABSPATH, $url);
+            
+            $upload_dir = wp_upload_dir();
+            
+            // Remove http/https to avoid protocol mismatch issues
+            $url_no_scheme = preg_replace('/^https?:\/\//', '', $url);
+            $baseurl_no_scheme = preg_replace('/^https?:\/\//', '', $upload_dir['baseurl']);
+            
+            $file_path = str_replace($baseurl_no_scheme, $upload_dir['basedir'], $url_no_scheme);
+            
+            // Fallback for cases where string replacement didn't work properly
+            if (!file_exists($file_path)) {
+                $file_path = str_replace(home_url('/'), ABSPATH, $url);
+            }
 
             if (file_exists($file_path)) {
-                $mime_type = mime_content_type($file_path);
+                $mime_type = function_exists('mime_content_type') ? mime_content_type($file_path) : 'application/octet-stream';
                 header('Content-Type: ' . $mime_type);
                 header('Content-Disposition: attachment; filename="' . basename($file_path) . '"');
                 readfile($file_path);

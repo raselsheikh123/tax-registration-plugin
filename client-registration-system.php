@@ -204,6 +204,7 @@ function crs_send_to_google($post_id)
         'address' => get_post_meta($post_id, 'crs_address', true),
         'bank_account' => get_post_meta($post_id, 'crs_bank_account', true),
         'bank_routing' => get_post_meta($post_id, 'crs_bank_routing', true),
+        'referral' => get_post_meta($post_id, 'crs_referral', true),
         'filing_status' => get_post_meta($post_id, 'crs_filing_status', true),
         'spouse_name' => get_post_meta($post_id, 'crs_spouse_name', true),
         'spouse_ssn' => get_post_meta($post_id, 'crs_spouse_ssn', true),
@@ -229,6 +230,7 @@ function crs_send_to_google($post_id)
         $data["dep{$index}_ssn"] = $dep['ssn'] ?? '';
         $data["dep{$index}_dob"] = $dep['dob'] ?? '';
         $data["dep{$index}_rel"] = $dep['relationship'] ?? '';
+        $data["dep{$index}_notes"] = $dep['notes'] ?? '';
         $data["dep{$index}_live"] = $dep['lived'] ?? '';
         $data["dep{$index}_care"] = $dep['childcare'] ?? '';
     }

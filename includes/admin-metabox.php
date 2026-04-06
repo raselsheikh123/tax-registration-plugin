@@ -49,6 +49,7 @@ function crs_render_client_metabox( $post ) {
     $address = get_post_meta($post_id, 'crs_address', true);
     $bankAcc = get_post_meta($post_id, 'crs_bank_account', true);
     $bankRou = get_post_meta($post_id, 'crs_bank_routing', true);
+    $referral = get_post_meta($post_id, 'crs_referral', true);
     $filing  = get_post_meta($post_id, 'crs_filing_status', true);
     $client_type = get_post_meta($post_id, 'crs_client_type', true);
 
@@ -90,6 +91,7 @@ function crs_render_client_metabox( $post ) {
         <tr><th>Address</th><td><textarea name="crs_address" class="crs-input"><?php echo esc_textarea($address); ?></textarea></td></tr>
         <tr><th>Bank Account</th><td><input type="text" name="crs_bank_account" value="<?php echo esc_attr($bankAcc); ?>" class="crs-input"></td></tr>
         <tr><th>Bank Routing</th><td><input type="text" name="crs_bank_routing" value="<?php echo esc_attr($bankRou); ?>" class="crs-input"></td></tr>
+        <tr><th>Referred By</th><td><input type="text" name="crs_referral" value="<?php echo esc_attr($referral); ?>" class="crs-input"></td></tr>
         <tr><th>Filing Status</th><td><input type="text" name="crs_filing_status" value="<?php echo esc_attr($filing); ?>" class="crs-input"></td></tr>
     </table>
 
@@ -200,6 +202,14 @@ function crs_render_client_metabox( $post ) {
                 </tr>
 
                 <tr>
+                    <th>Notes / Updates</th>
+                    <td>
+                        <textarea name="crs_dependents[<?php echo $index; ?>][notes]"
+                                  class="crs-input"><?php echo esc_textarea($dep['notes'] ?? ''); ?></textarea>
+                    </td>
+                </tr>
+
+                <tr>
                     <th>Lived > 6 months</th>
                     <td>
                         <input type="text"
@@ -267,6 +277,7 @@ function crs_save_client_meta( $post_id ) {
             'crs_address',
             'crs_bank_account',
             'crs_bank_routing',
+            'crs_referral',
             'crs_filing_status',
             'crs_spouse_name',
             'crs_spouse_ssn',
@@ -313,6 +324,7 @@ function crs_save_client_meta( $post_id ) {
                     'ssn'          => sanitize_text_field($dep['ssn'] ?? ''),
                     'dob'          => sanitize_text_field($dep['dob'] ?? ''),
                     'relationship' => sanitize_text_field($dep['relationship'] ?? ''),
+                    'notes'        => sanitize_textarea_field($dep['notes'] ?? ''),
                     'lived'        => sanitize_text_field($dep['lived'] ?? ''),
                     'childcare'    => sanitize_text_field($dep['childcare'] ?? ''),
             );

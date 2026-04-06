@@ -46,6 +46,7 @@ function crs_handle_client_submission() {
     update_post_meta( $post_id, 'crs_address', sanitize_textarea_field( $_POST['address'] ?? '' ) );
     update_post_meta( $post_id, 'crs_bank_account', sanitize_text_field( $_POST['bankAccount'] ?? '' ) );
     update_post_meta( $post_id, 'crs_bank_routing', sanitize_text_field( $_POST['bankRouting'] ?? '' ) );
+    update_post_meta( $post_id, 'crs_referral', sanitize_text_field( $_POST['referral'] ?? '' ) );
     update_post_meta( $post_id, 'crs_filing_status', sanitize_text_field( $_POST['filingStatus'] ?? '' ) );
     update_post_meta( $post_id, 'crs_client_type', $client_category );
 
@@ -106,6 +107,7 @@ function crs_handle_client_submission() {
                 'relationship' => sanitize_text_field( $_POST["depRel_$i"] ?? '' ),
                 'lived'        => sanitize_text_field( $_POST["depLive_$i"] ?? '' ),
                 'childcare'    => sanitize_text_field( $_POST["depCare_$i"] ?? '' ),
+                'notes'        => sanitize_textarea_field( $_POST["depNotes_$i"] ?? '' ),
             );
 
         }

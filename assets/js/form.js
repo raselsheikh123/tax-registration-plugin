@@ -28,7 +28,88 @@ function startForm(type) {
 
     if (type === 'existing') {
         document.getElementById('existing-welcome').style.display = 'block';
-        // SSN and DOB are often already on file for existing, but we might want them for verification
+
+        // Hide SSN and DOB for existing clients
+        document.getElementById('ssn-group').style.display = 'none';
+        document.querySelector('input[name="ssn"]').required = false;
+        document.getElementById('dob-group').style.display = 'none';
+        document.querySelector('input[name="dob"]').required = false;
+
+        // Force a balanced 2-column layout for the 4 remaining fields
+        const mainGrid = document.querySelector('#step-1 .input-grid');
+        if (mainGrid) mainGrid.style.gridTemplateColumns = 'repeat(auto-fit, minmax(400px, 1fr))';
+
+        // Swap out SSN for Notes in any existing dependent cards
+        document.querySelectorAll('.ssn-group-dep').forEach(el => el.style.display = 'none');
+        document.querySelectorAll('input[name^="depSSN_"]').forEach(el => el.required = false);
+        document.querySelectorAll('.notes-group-dep').forEach(el => el.style.display = '');
+
+        // Hide referral for existing clients
+        const refGroup = document.getElementById('referral-group');
+        if (refGroup) refGroup.style.display = 'none';
+
+        // Make occupation, cell, email and address optional
+        ['occupation', 'phone', 'email'].forEach(f => {
+            const el = document.querySelector(`input[name="${f}"]`);
+            if (el) {
+                el.required = false;
+                const label = el.previousElementSibling;
+                if (label && !label.innerHTML.includes('(Optional)')) {
+                    label.innerHTML += ' <span class="optional-tag" style="opacity:0.7; font-size:0.9em;">(Optional)</span>';
+                }
+            }
+        });
+        const addr = document.querySelector('textarea[name="address"]');
+        if (addr) {
+            addr.required = false;
+            const label = addr.previousElementSibling;
+            if (label && !label.innerHTML.includes('(Optional)')) {
+                label.innerHTML += ' <span class="optional-tag" style="opacity:0.7; font-size:0.9em;">(Optional)</span>';
+            }
+        }
+    } else {
+        document.getElementById('existing-welcome').style.display = 'none';
+
+        // Restore SSN and DOB for new clients
+        document.getElementById('ssn-group').style.display = '';
+        document.querySelector('input[name="ssn"]').required = true;
+        document.getElementById('dob-group').style.display = '';
+        document.querySelector('input[name="dob"]').required = true;
+
+        // Restore default layout
+        const mainGrid = document.querySelector('#step-1 .input-grid');
+        if (mainGrid) mainGrid.style.gridTemplateColumns = '';
+
+        // Restore SSN and hide Notes in any existing dependent cards
+        document.querySelectorAll('.ssn-group-dep').forEach(el => el.style.display = '');
+        document.querySelectorAll('input[name^="depSSN_"]').forEach(el => el.required = true);
+        document.querySelectorAll('.notes-group-dep').forEach(el => el.style.display = 'none');
+
+        // Restore referral for new clients
+        const refGroup = document.getElementById('referral-group');
+        if (refGroup) refGroup.style.display = '';
+
+        // Restore required fields
+        ['occupation', 'phone', 'email'].forEach(f => {
+            const el = document.querySelector(`input[name="${f}"]`);
+            if (el) {
+                el.required = true;
+                const label = el.previousElementSibling;
+                if (label) {
+                    const tag = label.querySelector('.optional-tag');
+                    if (tag) tag.remove();
+                }
+            }
+        });
+        const addr = document.querySelector('textarea[name="address"]');
+        if (addr) {
+            addr.required = true;
+            const label = addr.previousElementSibling;
+            if (label) {
+                const tag = label.querySelector('.optional-tag');
+                if (tag) tag.remove();
+            }
+        }
     }
 
     initQuestionnaire();
@@ -125,11 +206,19 @@ function toggleDependents(show) {
     form.style.display = show ? 'block' : 'none';
 
     // 3. Now loop through ALL fields (including any just added) to set the correct state
-    const fields = form.querySelectorAll('input, select');
+    const fields = form.querySelectorAll('input, select, textarea');
     fields.forEach(i => {
         if (show) {
-            i.required = true;
             i.disabled = false;
+
+            // Set required intelligently based on field name
+            if (i.name.startsWith('depNotes_') ||
+                (i.name.startsWith('depSSN_') && currentClientType === 'existing')) {
+                i.required = false;
+            } else if (i.type !== 'radio' && i.type !== 'checkbox' && i.tagName !== 'TEXTAREA') {
+                // By default make other text inputs/selects required
+                i.required = true;
+            }
         } else {
             i.required = false;
             i.disabled = true;
@@ -193,9 +282,13 @@ function addDependent() {
                 <label>Full Name</label>
                 <input type="text" name="depName_${dependentCount}" required ${!isVisible ? 'disabled' : ''}>
             </div>
-            <div class="input-group">
+            <div class="input-group ssn-group-dep" style="display: ${currentClientType === 'existing' ? 'none' : ''};">
                 <label>Social Security</label>
-                <input type="text" name="depSSN_${dependentCount}" required placeholder="XXX-XX-XXXX" ${!isVisible ? 'disabled' : ''}>
+                <input type="text" name="depSSN_${dependentCount}" ${currentClientType === 'existing' ? '' : 'required'} placeholder="XXX-XX-XXXX" ${!isVisible ? 'disabled' : ''}>
+            </div>
+            <div class="input-group notes-group-dep" style="display: ${currentClientType === 'existing' ? '' : 'none'}; grid-column: 1 / -1;">
+                <label>Please share any additional notes, updates, or special requests here <span class="optional-tag" style="opacity:0.7; font-size:0.9em;">(Optional)</span></label>
+                <textarea name="depNotes_${dependentCount}" rows="2" ${!isVisible ? 'disabled' : ''}></textarea>
             </div>
             <div class="input-group">
                 <label>Date of Birth</label>
@@ -277,6 +370,7 @@ function formatLabel(key) {
         address: 'Address',
         bankAccount: 'Bank Account',
         bankRouting: 'Bank Routing',
+        referral: 'Referred By',
         filingStatus: 'Filing Status',
         selfEmployed: 'Self Employed / 1099',
         overtime: 'Worked Overtime',
@@ -328,7 +422,7 @@ function generateReport() {
     // =========================
     const personalFields = [
         'fullName', 'ssn', 'dob', 'occupation', 'phone', 'email', 'address',
-        'bankAccount', 'bankRouting', 'filingStatus'
+        'bankAccount', 'bankRouting', 'referral', 'filingStatus'
     ];
 
     reportHTML += `<h2>Personal Information</h2><table>`;
@@ -401,9 +495,10 @@ function generateReport() {
                 <h3>Dependent ${i}</h3>
                 <table>
                     <tr><th>Name</th><td>${data[`depName_${i}`] || ''}</td></tr>
-                    <tr><th>SSN</th><td>${data[`depSSN_${i}`] || ''}</td></tr>
+                    ${data[`depSSN_${i}`] ? `<tr><th>SSN</th><td>${data[`depSSN_${i}`]}</td></tr>` : ''}
                     <tr><th>Date of Birth</th><td>${data[`depDOB_${i}`] || ''}</td></tr>
                     <tr><th>Relationship</th><td>${data[`depRel_${i}`] || ''}</td></tr>
+                    ${data[`depNotes_${i}`] ? `<tr><th>Notes / Updates</th><td>${data[`depNotes_${i}`]}</td></tr>` : ''}
                     <tr><th>Lived > 6 months</th><td>${data[`depLive_${i}`] || ''}</td></tr>
                     <tr><th>Childcare Paid</th><td>${data[`depCare_${i}`] || ''}</td></tr>
                 </table>

@@ -30,6 +30,7 @@
                 <h3 class="section-title">Part 1: Personal Information</h3>
                 <div id="existing-welcome" style="display: none; margin-bottom: 2rem;">
                     <p style="color: var(--accent); font-weight: 600;">Welcome back, let's get caught up!</p>
+                    <p style="font-size: 0.9rem; opacity: 0.9; margin-top: 0.5rem; color: inherit;">-Complete the fields below only if your occupation, phone number, email, address or bank account has changed. If there are no updates, you may skip.</p>
                 </div>
 
                 <div class="input-grid">
@@ -73,6 +74,11 @@
                         <label>Bank Routing Number (Optional)</label>
                         <input type="password" name="bankRouting" placeholder="9 Digits">
                     </div>
+                </div>
+
+                <div class="input-group" id="referral-group" style="margin-bottom: 2rem;">
+                    <label>Who can we thank for referring you? (Optional)</label>
+                    <input type="text" name="referral" placeholder="Name of person or business">
                 </div>
 
                 <h4 style="margin: 2rem 0 1rem; color: var(--text-muted);">Filing Status</h4>

@@ -36,6 +36,7 @@ function crs_handle_print_client() {
     $address = get_post_meta($post_id, 'crs_address', true);
     $bankAcc = get_post_meta($post_id, 'crs_bank_account', true);
     $bankRou = get_post_meta($post_id, 'crs_bank_routing', true);
+    $referral = get_post_meta($post_id, 'crs_referral', true);
     $filing  = get_post_meta($post_id, 'crs_filing_status', true);
     $client_type = get_post_meta($post_id, 'crs_client_type', true);
 
@@ -204,6 +205,9 @@ function crs_handle_print_client() {
                 <tr><th>Address</th><td><?php echo nl2br(esc_html($address)); ?></td></tr>
                 <tr><th>Bank Account</th><td><?php echo esc_html($bankAcc); ?></td></tr>
                 <tr><th>Bank Routing</th><td><?php echo esc_html($bankRou); ?></td></tr>
+                <?php if (!empty($referral)) : ?>
+                    <tr><th>Referred By</th><td><?php echo esc_html($referral); ?></td></tr>
+                <?php endif; ?>
                 <tr><th>Filing Status</th><td><?php echo esc_html($filing); ?></td></tr>
             </table>
 
@@ -237,6 +241,9 @@ function crs_handle_print_client() {
                                 <tr><th>SSN</th><td><?php echo esc_html($dep['ssn'] ?? ''); ?></td></tr>
                                 <tr><th>Date of Birth</th><td><?php echo esc_html($dep['dob'] ?? ''); ?></td></tr>
                                 <tr><th>Relationship</th><td><?php echo esc_html($dep['relationship'] ?? ''); ?></td></tr>
+                                <?php if (!empty($dep['notes'])) : ?>
+                                    <tr><th>Notes / Updates</th><td><?php echo esc_html($dep['notes'] ?? ''); ?></td></tr>
+                                <?php endif; ?>
                                 <tr><th>Lived > 6 months</th><td><?php echo esc_html($dep['lived'] ?? ''); ?></td></tr>
                                 <tr><th>Childcare Paid</th><td><?php echo esc_html($dep['childcare'] ?? ''); ?></td></tr>
                             </table>

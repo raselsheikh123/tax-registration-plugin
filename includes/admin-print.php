@@ -68,9 +68,6 @@ function crs_handle_print_client() {
     $dependents = get_post_meta($post_id, 'crs_dependents', true);
     if (!is_array($dependents)) $dependents = array();
 
-    // Documents
-    $document_urls = get_post_meta($post_id, 'crs_document_urls', true);
-
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -254,14 +251,6 @@ function crs_handle_print_client() {
                 <p>No dependents added.</p>
             <?php endif; ?>
 
-            <?php if (is_array($document_urls) && !empty($document_urls)): ?>
-                <h2>Documents Included</h2>
-                <ul>
-                    <?php foreach ($document_urls as $url): ?>
-                        <li><?php echo esc_html(basename($url)); ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php endif; ?>
         </div>
     </body>
     </html>

@@ -220,18 +220,15 @@
                 <!-- File Upload Section -->
                 <div
                     style="background: rgb(255 255 255 / 53%); border: 1px solid var(--border); padding: 2rem; border-radius: 20px; margin-bottom: 2rem;">
-                    <h4 style="margin-bottom: 1.5rem; color: var(--accent);">Document Upload</h4>
+                    <h4 style="margin-bottom: 1.5rem; color: var(--accent);">Income Tax Document Upload</h4>
 
                     <div id="file_upload_section">
                         <div class="input-group">
-                            <label>Upload Documents (PDF, DOC, DOCX, XLS, XLSX, JPG, PNG - Max 5MB each)</label>
                             <p
                                 style="font-size: 0.85rem; opacity: 0.8; margin-top: 0.2rem; margin-bottom: 0.8rem; color: inherit;">
                                 For better results please upload the original PDF or take a picture. Screenshots are
                                 accepted however often times upload blurry so they are not preferred.</p>
-                            <input type="file" name="client_document[]" id="client_document"
-                                accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" multiple
-                                style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 10px; width: 100%;">
+                            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdtSbLRcDHN4FWk982HusfSXtuE0hzYDLA5veCTygfNyCFAmg/viewform" target="_blank" class="btn btn-primary" style="display: inline-block; text-align: center; text-decoration: none;">Upload Documents</a>
                         </div>
                     </div>
                 </div>

@@ -438,15 +438,6 @@ function generateReport() {
         }
     });
 
-    // Add Document Info
-    if (data.client_document) {
-        reportHTML += `
-            <tr>
-                <th>Document URL</th>
-                <td>${data.client_document || ''}</td>
-            </tr>
-        `;
-    }
 
     reportHTML += `</table>`;
 

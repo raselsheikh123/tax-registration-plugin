@@ -235,21 +235,7 @@ function crs_render_client_metabox( $post ) {
     endif;
     ?>
 
-    <h2>Document</h2>
-    <table class="crs-table">
-        <?php
-        $document_urls = get_post_meta($post_id, 'crs_document_urls', true);
-        if (is_array($document_urls) && !empty($document_urls)) {
-            echo '<tr><th>Document URLs</th><td><ul>';
-            foreach ($document_urls as $key => $url) {
-                $download_url = add_query_arg(array('crs_download' => '1', 'post_id' => $post_id, 'index' => $key), home_url('/'));
-                echo '<li><a href="' . esc_url($download_url) . '" target="_blank">' . esc_html(basename($url)) . '</a></li>';
-            }
-            echo '</ul></td></tr>';
-        }
 
-        ?>
-    </table>
 
     <div style="margin-top:20px; padding-top:10px; border-top:1px solid #ddd;">
         <a href="<?php echo esc_url(wp_nonce_url(admin_url('admin.php?page=crs-dashboard&crs_print=1&post_id=' . $post_id), 'crs_print_client_' . $post_id, 'crs_print_nonce')); ?>" class="button button-primary button-large" target="_blank">
@@ -334,16 +320,6 @@ function crs_save_client_meta( $post_id ) {
         update_post_meta($post_id, 'crs_dependents', $clean_dependents);
     }
 
-    // Save Document fields
-    $document_fields = array(
-            'crs_document_url',
-    );
 
-    foreach ( $document_fields as $doc_field ) {
-
-        if ( array_key_exists($doc_field, $_POST) ) {
-            update_post_meta($post_id, $doc_field, sanitize_text_field($_POST[$doc_field]));
-        }
-    }
 }
 add_action('save_post','crs_save_client_meta');

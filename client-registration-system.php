@@ -211,7 +211,6 @@ function crs_send_to_google($post_id)
         'spouse_dob' => get_post_meta($post_id, 'crs_spouse_dob', true),
         'spouse_email' => get_post_meta($post_id, 'crs_spouse_email', true),
         'spouse_occ' => get_post_meta($post_id, 'crs_spouse_occupation', true),
-        'document_urls' => get_post_meta($post_id, 'crs_document_urls', true),
     );
 
     // Add questionnaire fields flat
@@ -242,46 +241,4 @@ function crs_send_to_google($post_id)
             'Content-Type' => 'application/json'
         )
     ));
-}
-
-add_action('init', 'crs_handle_file_download');
-
-function crs_handle_file_download()
-{
-
-    if (isset($_GET['crs_download']) && $_GET['crs_download'] == '1') {
-        if (!current_user_can('manage_options')) {
-            wp_die('Access denied. Only administrators can access this file.');
-        }
-
-        $post_id = intval($_GET['post_id']);
-        $index = intval($_GET['index']);
-
-        $urls = get_post_meta($post_id, 'crs_document_urls', true);
-        if (is_array($urls) && isset($urls[$index])) {
-            $url = $urls[$index];
-            
-            $upload_dir = wp_upload_dir();
-            
-            // Remove http/https to avoid protocol mismatch issues
-            $url_no_scheme = preg_replace('/^https?:\/\//', '', $url);
-            $baseurl_no_scheme = preg_replace('/^https?:\/\//', '', $upload_dir['baseurl']);
-            
-            $file_path = str_replace($baseurl_no_scheme, $upload_dir['basedir'], $url_no_scheme);
-            
-            // Fallback for cases where string replacement didn't work properly
-            if (!file_exists($file_path)) {
-                $file_path = str_replace(home_url('/'), ABSPATH, $url);
-            }
-
-            if (file_exists($file_path)) {
-                $mime_type = function_exists('mime_content_type') ? mime_content_type($file_path) : 'application/octet-stream';
-                header('Content-Type: ' . $mime_type);
-                header('Content-Disposition: attachment; filename="' . basename($file_path) . '"');
-                readfile($file_path);
-                exit;
-            }
-        }
-        wp_die('File not found.');
-    }
 }

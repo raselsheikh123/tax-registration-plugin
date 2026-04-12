@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Client Registration System
  * Description: Custom client registration and admin management system.
- * Version: 7.0
+ * Version: 8.0
  * Author: Rasel
  * Author URI: https://alterdiv.com/
  */
@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
 
 define('CRS_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('CRS_PLUGIN_URL', plugin_dir_url(__FILE__));
-define('CRS_PLUGIN_VERSION', '7.0');
+define('CRS_PLUGIN_VERSION', '8.0');
 
 /*
 |--------------------------------------------------------------------------
